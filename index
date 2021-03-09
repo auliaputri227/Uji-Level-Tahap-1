@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>Uji Level Tahap 1</title>
+    <style>
+        body {
+            font-family: Roboto, sans-serif;
+        }
+
+        .outputdata {
+            margin-left: 350px;
+            text-align: center;
+        }
+
+        .bungkus {
+            border: 1px solid black;
+            margin-bottom: 20px;
+            margin-left: 430px;
+            margin-right: 485px;
+        }
+
+        .forminput {
+            padding-left: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <br>
+    <h5 style="text-align: center;">Form Input Master dan Stok Data Barang</h5>
+    <div class="bungkus">
+        <div class="container-md">
+            <div class="forminput" id="untukform">
+                <form style="margin: auto;">
+                    <br>
+                    <!-- input kode produk -->
+                    <div class="form-group row">
+                        <label for="kodeproduk" class="col-sm-2 col-form-label">Kode Produk</label>
+                        <div class="col-sm-7">
+                            <label style="margin-top: 20px;">Auto</label>
+                        </div>
+                    </div>
+
+                    <!-- input nama produk -->
+                    <div class="form-group row">
+                        <label for="namaproduk" class="col-sm-2 col-form-label">Nama Produk</label>
+                        <div class="col-sm-7">
+                            <input style="margin-top: 15px;" type="text" class="form-control" id="modal_nama">
+                        </div>
+                    </div>
+
+                    <!-- input harga produk -->
+                    <div class="form-group row">
+                        <label for="hargaproduk" class="col-sm-2 col-form-label">Harga Produk</label>
+                        <div class="col-sm-7">
+                            <input style="margin-top: 15px;" type="number" class="form-control" id="modal_harga">
+                        </div>
+                    </div>
+
+                    <!-- input satuan produk -->
+                    <div class="form-group row">
+                        <label for="satuan" class="col-sm-2 col-form-label">Satuan</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="modal_satuan">
+                                <option></option>
+                                <option>Gelas</option>
+                                <option>Cup</option>
+                                <option>Piring</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- input kategori produk -->
+                    <div class="form-group row">
+                        <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="modal_kategori">
+                                <option></option>
+                                <option>Minuman Dingin</option>
+                                <option>Minuman Hangat</option>
+                                <option>Makanan Ringan</option>
+                                <option>Makanan Berat</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- input gambar -->
+                    <div class="form-group row">
+                        <label for="gambar" class="col-sm-2 col-form-label">URL Gambar</label>
+                        <div class="col-sm-7">
+                            <input style="margin-top: 15px;" type="text" class="form-control" id="modal_gambar">
+                        </div>
+                    </div>
+
+                    <!-- input stok produk -->
+                    <div class="form-group row">
+                        <label for="stok" class="col-sm-2 col-form-label">Stok Awal</label>
+                        <div class="col-sm-7">
+                            <input style="margin-top: 15px;" type="number" class="form-control" id="modal_stok">
+                        </div>
+                    </div>
+
+                    <!-- button input -->
+                    <button type="button" class="btn btn-info mb-4 col-sm-9" onclick="add()" id="simpan1">Simpan</button>
+                    <button type="button" class="btn btn-info mb-4 col-sm-9" onclick="datasimpan()" id="simpan2">Simpan</button>
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- output semua data produk -->
+    <div class="outputdata">
+        <table class="tableOutput" border="1" cellspacing=0 cellpadding=10 id="untukkode">
+            <thead>
+                <tr>
+                    <th scope="col" class="btn-dark">No</th>
+                    <th scope="col" class="btn-danger">Kode Produk</th>
+                    <th scope="col" class="btn-warning">Nama Produk</th>
+                    <th scope="col" class="btn-danger">Harga</th>
+                    <th scope="col" class="btn-warning">Satuan</th>
+                    <th scope="col" class="btn-danger">Kategori Produk</th>
+                    <th scope="col" class="btn-warning">Gambar Produk</th>
+                    <th scope="col" class="btn-danger">Stok Produk</th>
+                    <th scope="col" class="btn-warning">Modify</th>
+                </tr>
+            </thead>
+
+            <tbody id="tampildata">
+
+            </tbody>
+        </table>
+        
+    </div>
+
+
+    <!-- script javascript -->
+    <script>
+        var stc = document.getElementById("modal_stok").value
+        if (stc == "") {
+            document.getElementById("simpan1").style.display = "inline"
+            document.getElementById("simpan2").style.display = "none"
+        }
+
+        var namaproduk = []
+        var hargaproduk = []
+        var satuan = []
+        var kategori = []
+        var gambar = []
+        var stok = []
+
+        var tampil = document.getElementById('tampildata')
+
+        function showData() {
+            tampil.innerHTML = ""
+
+            for (i = 0; i < namaproduk.length; i++) {
+                nodata = i + 1
+                tampil.innerHTML += "<tr>" +
+                    "<th>" + nodata + "</th>" +
+                    "<td>" + "KD" + Date.now() + "</td>" +
+                    "<td>" + namaproduk[i] + "</td>" +
+                    "<td>" + hargaproduk[i] + "</td>" +
+                    "<td>" + satuan[i] + "</td>" +
+                    "<td>" + kategori[i] + "</td>" +
+                    "<td><img src=" + gambar[i] + "></td>" +
+                    "<td id='stockshow" + nodata + "'>" + stok[i] + "</td>" +
+                    "<td>" +
+                    "<button class='btn btn-warning' style='margin-right: 10px' onclick='editdata(" +
+                    i + ")'>Edit</button>" +
+                    "<button class='btn btn-danger' onclick='hapus(" + i + ")'>Hapus</button>" +
+                    "</td>" +
+                    "</tr>"
+                var stocks = document.getElementById('stockshow' + nodata + '')
+                if (Number(stocks.innerHTML) < 5) {
+                    stocks.style.backgroundColor = "#e74c3c"
+                    stocks.style.color = "#fff"
+                } else {
+                    stocks.style.backgroundColor = ""
+                    stocks.style.color = ""
+                }
+            }
+        }
+
+
+
+        function add() {
+            var namabaru = document.getElementById('modal_nama').value
+            var hargabaru = document.getElementById('modal_harga').value
+            var satuanbaru = document.getElementById('modal_satuan').value
+            var kategoribaru = document.getElementById('modal_kategori').value
+            var gambarbaru = document.getElementById('modal_gambar').value
+            var stokbaru = document.getElementById('modal_stok').value
+
+            namaproduk.push(namabaru)
+            hargaproduk.push(hargabaru)
+            satuan.push(satuanbaru)
+            kategori.push(kategoribaru)
+            gambar.push(gambarbaru)
+            stok.push(stokbaru)
+            document.getElementById('modal_nama').value = ""
+            document.getElementById('modal_harga').value = ""
+            document.getElementById('modal_satuan').value = ""
+            document.getElementById('modal_kategori').value = ""
+            document.getElementById('modal_gambar').value = ""
+            document.getElementById('modal_stok').value = ""
+            showData()
+        }
+
+        function hapus(i) {
+            namaproduk.splice(i, 1);
+            hargaproduk.splice(i, 1);
+            satuan.splice(i, 1);
+            kategori.splice(i, 1);
+            gambar.splice(i, 1);
+            stok.splice(i, 1);
+
+            showData()
+        }
+
+
+        var index = []
+
+        function editdata(i) {
+            document.getElementById('modal_nama').value = namaproduk[i]
+            document.getElementById('modal_harga').value = hargaproduk[i]
+            document.getElementById('modal_satuan').value = satuan[i]
+            document.getElementById('modal_kategori').value = kategori[i]
+            document.getElementById('modal_gambar').value = gambar[i]
+            document.getElementById('modal_stok').value = stok[i]
+            document.getElementById("simpan1").style.display = "none"
+            document.getElementById("simpan2").style.display = "inline"
+            index.push(i)
+        }
+
+
+        function datasimpan() {
+            var simpannama = document.getElementById('modal_nama').value
+            var simpanharga = document.getElementById('modal_harga').value
+            var simpansatuan = document.getElementById('modal_satuan').value
+            var simpankategori = document.getElementById('modal_kategori').value
+            var simpangambar = document.getElementById('modal_gambar').value
+            var simpanstok = document.getElementById('modal_stok').value
+
+            namaproduk[index] = simpannama
+            hargaproduk[index] = simpanharga
+            satuan[index] = simpansatuan
+            kategori[index] = simpankategori
+            gambar[index] = simpangambar
+            gambar[index] = simpangambar
+            stok[index] = simpanstok
+            document.getElementById('modal_nama').value = ""
+            document.getElementById('modal_harga').value = ""
+            document.getElementById('modal_satuan').value = ""
+            document.getElementById('modal_kategori').value = ""
+            document.getElementById('modal_gambar').value = ""
+            document.getElementById('modal_stok').value = ""
+            document.getElementById("simpan1").style.display = "inline"
+            document.getElementById("simpan2").style.display = "none"
+
+            showData()
+            index.pop()
+        }
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
