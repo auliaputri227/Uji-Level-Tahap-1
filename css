@@ -1,0 +1,21 @@
+<style>
+        body {
+            font-family: Roboto, sans-serif;
+        }
+
+        .outputdata {
+            margin-left: 350px;
+            text-align: center;
+        }
+
+        .bungkus {
+            border: 1px solid black;
+            margin-bottom: 20px;
+            margin-left: 430px;
+            margin-right: 485px;
+        }
+
+        .forminput {
+            padding-left: 20%;
+        }
+    </style>
